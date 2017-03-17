@@ -1,0 +1,2 @@
+Sekcja t21 procesu o PID = 74827
+Sekcja t31 procesu o PID = 74828
