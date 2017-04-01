@@ -89,27 +89,4 @@ abstract class Polygon implements Figure
 	{
 		return "Number: " + this.polygonNumber + "\t\tArea: " + this.countArea() + "\t\tPerimeter: " + this.countPerimeter();
 	}
-
-
-	
-	/*private void checkPoints(){
-		ArrayList<Integer> dat = new ArrayList<Integer>();
-		for(int i = 0; i < numberOfVertices; i++)
-			data.add(i);
-		
-		int[] data;
-		dat.toArray();
-		
-		VectorListener<Integer> listener = new VectorListener<Integer>(){
-		    @Override
-		    public void action(Integer[] vector) {
-		    	Quadrangle Q = new Quadrangle(p[vector[0]], p[vector[1]], p[vector[2]], p[vector[3]]);
-		        System.out.println(Q.area());
-		    }
-		};
-		        
-		        
-		PermutationGenerator perm = new PermutationGenerator(data, listener);
-		perm.generate(new AntylexStrategy());
-	}*/
 }
