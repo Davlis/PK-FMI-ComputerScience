@@ -11,17 +11,13 @@ import java.awt.Cursor;
 
 public class FigureComponent extends JPanel
 {
-	private final int width, height;
-	private ArrayList<Triangle> arr;
+	private ArrayList<Polygon> arr;
 	private Point pressedPoint;
 	private boolean isBeingDragged;
 
-	public FigureComponent(int width, int height)
+	public FigureComponent()
 	{
-		this.width = width;
-		this.height = height;
-
-		arr = new ArrayList<Triangle>();
+		arr = new ArrayList<>();
 		addMouseListener(new MouseHandler());
 		addMouseMotionListener(new MouseMoutionHandler());
 		pressedPoint = new Point(0, 0);
@@ -29,33 +25,40 @@ public class FigureComponent extends JPanel
 
 	public void paintComponent(Graphics g)
 	{
-		for(Triangle t: arr)
-			t.drawPolygon(g);
+		for(Polygon pl: arr)
+			pl.drawPolygon(g);
 	}
 
-	private void add(Point p1)
+	private void add(Point p1, int numberOfVertices)
 	{
-		Point p2 = new Point(p1.getX()+20, p1.getY()-40);
-		Point p3 = new Point(p1.getX()+40, p1.getY());
-		arr.add(new Triangle(p1, p2, p3));
+		if(numberOfVertices==3){
+			Point p2 = new Point(p1.getX()+20, p1.getY()-40);
+			Point p3 = new Point(p1.getX()+40, p1.getY());
+			arr.add(new Triangle(p1, p2, p3));
+		}
+		else if(numberOfVertices==4){
+			Point p2 = new Point(p1.getX()+20, p1.getY()-20);
+			Point p3 = new Point(p1.getX()+40, p1.getY());
+			Point p4 = new Point(p1.getX()+20, p1.getY()+20);
+			arr.add(new Quadrangle(p1, p2, p3, p4));
+		}
+
 	}
 
 	private void remove(Point p)
 	{
-		Triangle t = find(p);
-		if(t==null)
+		Polygon pl = find(p);
+		if(pl==null)
 			return;
-		arr.remove(t);
+		arr.remove(pl);
 	}
 
-	private Triangle find(Point p)
+	private Polygon find(Point p)
+	//searches every Polygon if it contains the point passed to it, null if no match, else returns the objects
 	{
-		if(arr.size()<=0)
-			return null;
-
-		for(Triangle t:arr){
-			if(t.getPolygon().contains(p.getX(), p.getY()))
-				return t;
+		for(Polygon pl: arr){
+			if(pl.getPolygon().contains(p.getX(), p.getY()))
+				return pl;
 		}
 		return null;
 	}
@@ -76,7 +79,7 @@ public class FigureComponent extends JPanel
 				currentTimeClicked = Instant.now();
 
 				if (currentTimeClicked.toEpochMilli() - lastTimeClicked.toEpochMilli() <= 500){
-					remove(new Point(e.getX(), e.getY()));
+					remove(new Point(e));
 					repaint();
 				}
 
@@ -87,13 +90,12 @@ public class FigureComponent extends JPanel
 		@Override
 		public void mousePressed(MouseEvent e)
 		{
-			pressedPoint.set(e.getX(), e.getY());
-			if(e.getButton() == MouseEvent.BUTTON1){
-				Point p = new Point(e.getX(), e.getY());
-				if(find(p) == null){
-					add(p);
-					repaint();
-				}
+			pressedPoint.set(e);
+			Point p = new Point(e);
+			if(find(p) == null){
+				if(e.getButton() == MouseEvent.BUTTON1) add(p, 3);
+				else if(e.getButton() == MouseEvent.BUTTON3) add(p, 4);
+				repaint();
 			}
 		}
 
@@ -107,7 +109,7 @@ public class FigureComponent extends JPanel
 	private class MouseMoutionHandler implements MouseMotionListener
 	{
 		private Point startPoint, endPoint;
-		private Triangle t;
+		private Polygon pl;
 
 		public MouseMoutionHandler(){
 			startPoint = new Point(0,0);
@@ -119,14 +121,14 @@ public class FigureComponent extends JPanel
 		{
 			if(!isBeingDragged){
 				startPoint.set(pressedPoint);
-				t = find(startPoint);
+				pl = find(startPoint);
 				isBeingDragged = true;
 			}
 
 			if(e.getButton() == MouseEvent.BUTTON1){
-				if(t!=null){
-					endPoint.set(e.getX(), e.getY());
-					t.move(startPoint, endPoint);
+				if(pl!=null){
+					endPoint.set(e);
+					pl.move(startPoint, endPoint);
 					startPoint.set(endPoint);
 					repaint();
 				}
@@ -135,11 +137,10 @@ public class FigureComponent extends JPanel
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			if(find(new Point(e.getX(), e.getY()))!=null)
+			if(find(new Point(e))!=null)
 				setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 			else
 				setCursor(Cursor.getDefaultCursor());
 		}
 	}
-
 }

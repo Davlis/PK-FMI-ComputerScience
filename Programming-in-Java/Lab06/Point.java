@@ -1,5 +1,7 @@
 package Lab06;
 
+import java.awt.event.MouseEvent;
+
 public class Point
 {
 	private double x;
@@ -13,6 +15,18 @@ public class Point
 	{
 		this.x=x;
 		this.y=y;
+	}
+
+	public Point(Point p)
+	{
+		this.x=p.x;
+		this.y=p.y;
+	}
+
+	public Point(MouseEvent e)
+	{
+		this.x=e.getX();
+		this.y=e.getY();
 	}
 
 	public double getX()
@@ -44,6 +58,11 @@ public class Point
 	public void set(Point p)
 	{
 		set(p.x, p.y);
+	}
+
+	public void set(MouseEvent e)
+	{
+		set(e.getX(), e.getY());
 	}
 
 	public Point distanceVector(Point p)

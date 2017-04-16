@@ -12,7 +12,7 @@ public class FirstJFrame
 			public void run(){
 				JFrame frame = new JFrame();
 				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-				FigureComponent comp = new FigureComponent(screenSize.width/2, screenSize.height/2);
+				FigureComponent comp = new FigureComponent();
 
 				frame.setBounds(screenSize.width/4, screenSize.height/4, screenSize.width/2, screenSize.height/2);
 				frame.setResizable(true);
