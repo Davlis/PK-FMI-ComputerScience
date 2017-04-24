@@ -1,4 +1,4 @@
-package Lab06;
+package lab06;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +16,7 @@ public class FirstJFrame
 
 				frame.setBounds(screenSize.width/4, screenSize.height/4, screenSize.width/2, screenSize.height/2);
 				frame.setResizable(true);
+				frame.setTitle("Lab06 Kamil Kosiński");
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.add(comp);
 				frame.setVisible(true);

@@ -1,4 +1,4 @@
-package Lab06;
+package lab06;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -24,6 +24,11 @@ abstract class Polygon
 		return vertices[i];
 	}
 
+	public int size()
+	{
+		return numberOfVertices;
+	}
+
 	public void set(Point p, int i)
 	{
 		vertices[i] = p;
@@ -40,6 +45,23 @@ abstract class Polygon
 
 		for(Point px: vertices)
 			px.set(px.getX()+vector.getX(), px.getY()+vector.getY());
+	}
+
+	public boolean contains(double x, double y)
+	{
+		return contains(new Point(x, y));
+	}
+
+	public boolean contains(Point p)
+	{
+		boolean c = false;
+		for(int i=0, j=numberOfVertices-1; i<numberOfVertices; i++){
+			if(((vertices[i].getY() > p.getY()) != (vertices[j].getY() > p.getY()))	&&
+					(p.getX() < ((vertices[j].getX()-vertices[i].getX()) * (p.getY()-vertices[i].getY()) / (vertices[j].getY()-vertices[i].getY()) + vertices[i].getX())))
+				c=!c;
+			j=i;
+		}
+		return c;
 	}
 
 	public java.awt.Polygon getPolygon()

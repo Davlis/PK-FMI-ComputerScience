@@ -1,4 +1,4 @@
-package Lab06;
+package lab06;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,7 @@ import java.awt.Cursor;
 public class FigureComponent extends JPanel
 {
 	private ArrayList<Polygon> arr;
-	private Point pressedPoint;
+	private Point pressedPoint, currentPoint;
 	private boolean isBeingDragged;
 
 	public FigureComponent()
@@ -20,11 +20,14 @@ public class FigureComponent extends JPanel
 		arr = new ArrayList<>();
 		addMouseListener(new MouseHandler());
 		addMouseMotionListener(new MouseMoutionHandler());
-		pressedPoint = new Point(0, 0);
+		pressedPoint = new Point();
+		currentPoint = new Point();
 	}
 
+	@Override
 	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
 		for(Polygon pl: arr)
 			pl.drawPolygon(g);
 	}
@@ -47,17 +50,18 @@ public class FigureComponent extends JPanel
 
 	private void remove(Point p)
 	{
-		Polygon pl = find(p);
-		if(pl==null)
-			return;
-		arr.remove(pl);
+		arr.remove(find(p));
+	}
+
+	private Polygon find(MouseEvent e){
+		return find(new Point(e.getX(), e.getY()));
 	}
 
 	private Polygon find(Point p)
 	//searches every Polygon if it contains the point passed to it, null if no match, else returns the objects
 	{
 		for(Polygon pl: arr){
-			if(pl.getPolygon().contains(p.getX(), p.getY()))
+			if(pl.contains(p))
 				return pl;
 		}
 		return null;
@@ -92,7 +96,7 @@ public class FigureComponent extends JPanel
 		{
 			pressedPoint.set(e);
 			Point p = new Point(e);
-			if(find(p) == null){
+			if(find(e) == null){
 				if(e.getButton() == MouseEvent.BUTTON1) add(p, 3);
 				else if(e.getButton() == MouseEvent.BUTTON3) add(p, 4);
 				repaint();
@@ -137,7 +141,7 @@ public class FigureComponent extends JPanel
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			if(find(new Point(e))!=null)
+			if(find(e)!=null)
 				setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 			else
 				setCursor(Cursor.getDefaultCursor());
