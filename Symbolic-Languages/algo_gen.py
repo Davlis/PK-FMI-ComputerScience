@@ -70,7 +70,7 @@ class Population:
         print("Best: " + str(self.best))
         sum = 0
         for i in self.best_values:
-            sum += i[2]
+            sum += i[1]
         print("Average: " + str(sum/len(self.best_values)))
 
         #self.make_plot(self.best_values)
