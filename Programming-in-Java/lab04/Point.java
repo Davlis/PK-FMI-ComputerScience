@@ -1,4 +1,4 @@
-package Lab5;
+package lab04;
 
 public class Point
 {

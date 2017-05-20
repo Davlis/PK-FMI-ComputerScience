@@ -1,13 +1,15 @@
+package lab03;
+
 public class Triangle extends Figure
 {	
-	public Triangle(double[] c)
-	{
-		this(new Point(c[0], c[1]), new Point(c[2], c[3]), new Point(c[4], c[5]));
-	}
-	
 	public Triangle(Point a, Point b, Point c)
 	{
 		super(new Point[]{a, b, c});
+	}
+	
+	public Triangle(double[] c)
+	{
+		this(new Point(c[0], c[1]), new Point(c[2], c[3]), new Point(c[4], c[5]));
 	}
 	
 	public Triangle(Triangle t)

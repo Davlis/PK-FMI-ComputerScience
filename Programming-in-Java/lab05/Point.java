@@ -1,3 +1,5 @@
+package lab05;
+
 public class Point
 {
 	private double x;

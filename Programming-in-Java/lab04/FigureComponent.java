@@ -1,3 +1,5 @@
+package lab04;
+
 import java.awt.*;
 import java.awt.geom.Line2D;
 
@@ -31,7 +33,7 @@ public class FigureComponent extends JPanel
 		Quadrangle Q2 = new Quadrangle(new double[]{100, -150, 110, 120, 140, -10, 135, -50});
 		Quadrangle[] arrayQ = new Quadrangle[]{Q1, Q2};
 		
-		drawAxis(g);
+		//drawAxis(g);
 		
 		for(int i=0; i<2; i++){
 			arrayT[i].drawFigure(g, width/2, height/2);

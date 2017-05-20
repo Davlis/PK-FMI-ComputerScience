@@ -1,3 +1,5 @@
+package lab03;
+
 import java.util.Arrays;
 
 abstract class Figure
@@ -7,7 +9,7 @@ abstract class Figure
 	
 	public Figure()
 	{
-		this.vertices = new Point[0];
+		this.vertices = new Point[numberOfVertices=0];
 	}
 
 	public Figure(Point[] p)

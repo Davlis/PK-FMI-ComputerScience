@@ -1,3 +1,5 @@
+package lab08;
+
 import java.util.Arrays;
 
 public class Matrix
@@ -52,12 +54,28 @@ public class Matrix
 		
 		return out;
 	}
+
+	public Vector getRowVector(int numberOfRow){
+		double[] vect = new double[matrix.length];
+		for(int i = 0; i < matrix.length; i++){
+			vect[i] = matrix[numberOfRow][i];
+		}
+		return new Vector(vect);
+	}
+
+	public Vector getColumnVector(int numberOfColumn){
+		double[] vect = new double[matrix.length];
+		for(int i = 0; i < matrix.length; i++){
+			vect[i] = matrix[i][numberOfColumn];
+		}
+		return new Vector(vect);
+	}
 	
 	public Vector multiply(Vector vector)
 	{
 		if(vector.getSize()!=matrix.length){
 			System.out.println("Wrong matrix size");
-			System.exit(1);
+			return null;
 		}
 		
 		Vector out = new Vector(vector.getSize());

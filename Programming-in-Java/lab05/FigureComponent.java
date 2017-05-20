@@ -1,8 +1,7 @@
-package Lab5;
+package lab05;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 public class FigureComponent extends JPanel
@@ -46,7 +45,7 @@ public class FigureComponent extends JPanel
 	
 	public void paintComponent(Graphics g)
 	{
-		//drawAxis(g);
+		drawAxis(g);
 		
 		for(Polygon p: arr)
 			p.draw(g, width/2, height/2);

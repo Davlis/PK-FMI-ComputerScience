@@ -1,3 +1,5 @@
+package lab08;
+
 import java.util.Arrays;
 
 public class Vector
@@ -59,7 +61,18 @@ public class Vector
 			out.vect[i]*=scalar;
 		return out;
 	}
-	
+
+	public Vector simple_multiplication(Vector v){
+		if(this.vect.length != v.vect.length)
+			return null;
+
+		Vector out = new Vector(this.vect.length);
+		for(int i = 0; i < this.vect.length; i++){
+			out.setValue(i, (this.getValue(i)*v.getValue(i)));
+		}
+		return out;
+	}
+
 	public double dotProduct(Vector vector)
 	{
 		double out=0.0;

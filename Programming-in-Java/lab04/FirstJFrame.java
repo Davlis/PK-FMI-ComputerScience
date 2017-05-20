@@ -1,4 +1,7 @@
+package lab04;
+
 import java.awt.*;
+
 import javax.swing.*;
 
 public class FirstJFrame
@@ -21,6 +24,6 @@ public class FirstJFrame
 			}	
 		};
 
-		SwingUtilities.invokeLater(eventHandler);
+		SwingUtilities.invokeLater(eventHandler);		
 	}
 }

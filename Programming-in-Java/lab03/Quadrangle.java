@@ -1,3 +1,5 @@
+package lab03;
+
 public class Quadrangle extends Figure
 {
 	public Quadrangle(Point a, Point b, Point c, Point d)

@@ -1,4 +1,4 @@
-package Lab5;
+package lab05;
 
 import java.awt.*;
 
@@ -28,5 +28,20 @@ public class Triangle extends Polygon
 	public double height(int crn)
 	{
 		return 2*(this.countArea()/(vertices[(crn+1)%3].distance(vertices[(crn+2)%3])));
+	}
+
+	public double countArea()
+	{
+		return area();
+	}
+
+	public double countPerimeter()
+	{
+		return perimeter();
+	}
+
+	public void draw(Graphics g, int offsetX, int offsetY)
+	{
+		drawFigure(g, offsetX, offsetY);
 	}
 }

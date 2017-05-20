@@ -1,3 +1,5 @@
+package lab04;
+
 import java.awt.Color;
 
 public class Quadrangle extends Figure

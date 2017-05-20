@@ -1,10 +1,12 @@
+package lab02;
+
 public class Calculations
 {
 	public static void main(String[] args)
 	{
 		Vector vecA = new Vector(new double[] { 1, 1, 1, 1, 1, 1 });
 		Vector vecB = new Vector(new double[] { 2, 2, 2, 2, 2, 2 });
-		Vector vecC = new Vector(new double[] { 4, 4, 4 });
+		Vector vecC = new Vector(new double[] { 4, 4, 4, 4 });
 		Matrix matrixA = new Matrix(new double[][] {{ 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 }});
 		Matrix matrixB = new Matrix(new double[][] {{ 0, 0, 0 }, { 1, 2, 3 }, { 2, 4, 6 }});
 		double scalar = 20.0;

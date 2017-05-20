@@ -1,4 +1,4 @@
-package Lab5;
+package lab05;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -51,7 +51,11 @@ abstract class Polygon implements Figure
 		figureColor = col;
 	}
 
-	public void draw(Graphics g, int offsetX, int offsetY)
+	abstract public void draw(Graphics g, int offsetX, int offsetY);
+	abstract public double countPerimeter();
+	abstract public double countArea();
+
+	protected void drawFigure(Graphics g, int offsetX, int offsetY)
 	{
 		java.awt.Polygon p = new java.awt.Polygon();
 
@@ -64,7 +68,7 @@ abstract class Polygon implements Figure
 		g.fillPolygon(p);
 	}
 
-	public double countPerimeter()
+	protected double perimeter()
 	{
 		double out=0;
 		for(int i=0; i<numberOfVertices; i++)
@@ -72,7 +76,7 @@ abstract class Polygon implements Figure
 		return out;
 	}
 	
-	public double countArea()
+	protected double area()
 	{
 		double out=0;
 		for(int i=0; i<numberOfVertices; i++)
@@ -89,4 +93,27 @@ abstract class Polygon implements Figure
 	{
 		return "Number: " + this.polygonNumber + "\t\tArea: " + this.countArea() + "\t\tPerimeter: " + this.countPerimeter();
 	}
+
+
+	
+	/*private void checkPoints(){
+		ArrayList<Integer> dat = new ArrayList<Integer>();
+		for(int i = 0; i < numberOfVertices; i++)
+			data.add(i);
+		
+		int[] data;
+		dat.toArray();
+		
+		VectorListener<Integer> listener = new VectorListener<Integer>(){
+		    @Override
+		    public void action(Integer[] vector) {
+		    	Quadrangle Q = new Quadrangle(p[vector[0]], p[vector[1]], p[vector[2]], p[vector[3]]);
+		        System.out.println(Q.area());
+		    }
+		};
+		        
+		        
+		PermutationGenerator perm = new PermutationGenerator(data, listener);
+		perm.generate(new AntylexStrategy());
+	}*/
 }

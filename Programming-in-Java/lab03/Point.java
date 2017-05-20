@@ -1,3 +1,5 @@
+package lab03;
+
 public class Point
 {
 	private double x;
@@ -38,7 +40,8 @@ public class Point
 	public Point set(double x, double y)
 	{
 		setX(x);
-		return setY(y);
+		setY(y);
+		return this;
 	}
 	
 	public Point set(Point pnt)

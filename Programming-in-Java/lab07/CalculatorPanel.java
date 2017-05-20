@@ -39,35 +39,36 @@ public class CalculatorPanel extends JPanel
 			expression = new StringBuilder();
 		}
 
-		public void add(String c)
+		void add(String c)
+		{
+			expression.append(c);
+			textField.setText(expression.toString());
+		}
+
+		void clear()
+		{
+			expression.delete(0, expression.length());
+			textField.setText(expression.toString());
+		}
+
+		void backspace()
 		{
 			if(isToBeErased){
 				this.clear();
 				isToBeErased = false;
 			}
 
-			expression.append(c);
-			textField.setText(expression.toString());
-		}
-
-		public void clear()
-		{
-			expression.delete(0, expression.length());
-			textField.setText(expression.toString());
-		}
-
-		public void backspace()
-		{
 			if(!textField.getText().isEmpty()){
 				expression.deleteCharAt(expression.length()-1);
 				textField.setText(expression.toString());
 			}
 		}
 
-		public void equals()
+		void equals()
 		{
 			ReversPolishNotation rpn = new ReversPolishNotation(expression.toString());
-			textField.setText(rpn.solve());
+			expression = new StringBuilder(rpn.solve());
+			textField.setText(this.expression.toString());
 			isToBeErased = true;
 		}
 	}

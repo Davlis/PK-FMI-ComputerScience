@@ -1,8 +1,7 @@
-package Lab5;
+package lab05;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class FirstJFrame
 {	
@@ -17,7 +16,7 @@ public class FirstJFrame
 				FigureComponent comp = new FigureComponent(screenSize.width/2, screenSize.height/2);
 		
 				frame.setBounds(screenSize.width/4, screenSize.height/4, screenSize.width/2, screenSize.height/2);
-				frame.setResizable(false);
+				frame.setResizable(true);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.add(comp);
 				frame.setVisible(true);

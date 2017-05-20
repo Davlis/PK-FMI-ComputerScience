@@ -1,4 +1,4 @@
-package Lab5;
+package lab05;
 
 import java.awt.*;
 
@@ -28,5 +28,20 @@ public class Quadrangle extends Polygon
 	public double diagonal(int i)
 	{
 		return vertices[i].distance(vertices[(i+2)%4]);
+	}
+
+	public double countArea()
+	{
+		return area();
+	}
+
+	public double countPerimeter()
+	{
+		return perimeter();
+	}
+
+	public void draw(Graphics g, int offsetX, int offsetY)
+	{
+		drawFigure(g, offsetX, offsetY);
 	}
 }

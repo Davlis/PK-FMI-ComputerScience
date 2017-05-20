@@ -1,3 +1,5 @@
+package lab03;
+
 public class Figures
 {
 	public static void main(String[] args)
