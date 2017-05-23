@@ -27,16 +27,18 @@ public class Threads
         m = this.makeMatrix();
         System.out.println("Matrix:\n" + m);
 
-        threadArray = new ArrayList<>();
+        threadArray = new ArrayList<Thread>();
         for(int i = 0; i < Threads.amountOfThreads; i++)
             threadArray.add(new Thread(new ColumnThread(v, m, i+1)));
 
         System.out.println("Threads have been started\n");
         for(int i = 0; i < threadArray.size(); i++){
-            try{
+            try {
                 threadArray.get(i).start();
+                threadArray.get(i).join();
             }
-            catch (Exception e) {
+            catch (InterruptedException ex) {
+                ex.printStackTrace();
                 System.out.println("FFS CHARLES Y U NO COUNT THREAD " + i);
             }
         }
