@@ -38,8 +38,9 @@ public class Threads
                 threadArray.get(i).join();
             }
             catch (InterruptedException ex) {
-                ex.printStackTrace();
                 System.out.println("FFS CHARLES Y U NO COUNT THREAD " + i);
+                i--;
+                continue;
             }
         }
     }
