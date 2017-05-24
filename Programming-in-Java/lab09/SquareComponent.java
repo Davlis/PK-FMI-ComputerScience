@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class SquareComponent extends JPanel
 {
-	private static int initAmountOfSquares = 1;
+	private static int initAmountOfSquares = 2;
 	private boolean isFalling;
 	private HashSet<Square> squares;
 	private DisplayPanel display;
@@ -81,7 +81,7 @@ public class SquareComponent extends JPanel
 	{
 		public ButtonPanel()
 		{
-			setLayout(new FlowLayout(FlowLayout.CENTER, 200, 0)); // or GridLayout(1, 3)
+			setLayout(new GridLayout(1, 3));
 
 			JButton button;
 			button = new JButton("ITS TIME TO STOP");
