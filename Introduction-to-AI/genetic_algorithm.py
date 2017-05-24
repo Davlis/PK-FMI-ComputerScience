@@ -219,4 +219,5 @@ class Population:
         plt.legend(loc='lower right')
         plt.show()
 
-Population(obj_func, 250, 2, 0.7, 0.02, -1.5, 1.5, 0.00000001).make_generations(1000)
+pop = Population(obj_func, 250, 2, 0.7, 0.02, -1.5, 1.5, 0.00000001)
+pop.make_generations(1000)
