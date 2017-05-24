@@ -1,77 +1,120 @@
 package lab09;
 
-import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.atomic.*;
 
-public class Square extends Thread
+import javax.swing.*;
+
+public class Square extends JPanel
 {
-	private int x;
-	private int y;
-	public final static int height = 10;
-	public final static int width = 10;
+    public static final int DEFAULT_SIZE = 10;
+    private final Position position;
+    private final double speed;
+    private final int border;
+    private final AtomicBoolean flag;
+    private Thread falling;
 
-	private final int xBorder;
-	private final int yBorder;
-	private final Color squareColor = this.generateColor();
-	private final int pixelsPerFrame = new Random().nextInt(10) + 1;
-
-	public Square(int xBorder, int yBorder){
-        this.xBorder = xBorder;
-        this.yBorder = yBorder;
-        this.set(new Random().nextInt(this.xBorder), -Square.height);
-    }
-
-	private void moveSquare(int x, int y) {
-		this.x += x;
-		this.y += y;
-    }
-
-	private void set(int x, int y){
-        this.x = x;
-        this.y = y;
-	}
-
-    private Color generateColor(){
-        Random r = new Random();
-        int red = r.nextInt(256);
-        int green = r.nextInt(256);
-        int blue = r.nextInt(256);
-        return new Color(red, green, blue);
-    }
-
-    public java.awt.Polygon getPolygon()
+    public Square(final JPanel parent)
     {
-        java.awt.Polygon p = new java.awt.Polygon();
-        p.addPoint(this.x, this.y);
-        p.addPoint(this.x + Square.width, this.y);
-        p.addPoint(this.x + Square.width, this.y + Square.height);
-        p.addPoint(this.x, this.y + Square.height);
-        return p;
+        this(parent, DEFAULT_SIZE);
     }
 
-    public void drawPolygon(Graphics g) {
-        java.awt.Polygon p = this.getPolygon();
-        g.setColor(this.squareColor);
-        g.drawPolygon(p);
-        g.fillPolygon(p);
-    }
+    public Square(final JPanel parent, int size)
+    {
+        flag = new AtomicBoolean();
+        border = parent.getHeight();
+        speed = new Random().nextDouble() * 8 + 0.5;
+        position = new Position(new Random().nextInt(parent.getWidth()), 0);
+        falling = new Thread(() -> {
+            while(flag.get())
+            {
+                position.translate(0, speed);
+                if(position.getY() > border)
+                    position.setY(0);
+                    
+                setLocation(position.toPoint());
+                parent.repaint();
 
-
-    public void run() {
-        while(true){
-            Square.this.moveSquare(0, Square.this.pixelsPerFrame);
-            try{
-                this.sleep((int) 1000 / 60);
-            } catch (InterruptedException ex){
-                ex.printStackTrace();
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ex) {
+                    break;
+                }
             }
+        });
 
-            if(Square.this.y >= Square.this.yBorder)
-                Square.this.set(new Random().nextInt(xBorder), -Square.height);
+        setSize(new Dimension(size, size));
+        setLocation(position.toPoint());
+        setBackground(randomColor());
 
-            //SquareComponent.repaintAll();
+        parent.add(this);
+        parent.repaint();
+    }
+
+    public void start()
+    {
+        flag.set(true);
+        falling.start();
+    }
+
+    public void stop()
+    {
+        flag.set(false);
+        falling.interrupt();
+    }
+
+    private Color randomColor()
+    {
+        Random rnd = new Random();
+        return new Color(rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+    }
+
+    private class Position
+    {
+        private double x;
+        private double y;
+
+        public Position(double x, double y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
+        public void setX(double x)
+        {
+            this.x = x;
+        }
+
+        public double getX()
+        {
+            return x;
+        }
+
+        public void setY(double y)
+        {
+            this.y = y;
+        }
+
+        public double getY()
+        {
+            return y;
+        }
+
+        public void translate(double dx, double dy)
+        {
+            x += dx;
+            y += dy;
+        }
+
+        public Point toPoint()
+        {
+            return new Point((int) x, (int) y);
+        }
+
+        public String toString()
+        {
+            return "[ " + x + " , " + y + " ]";
         }
     }
-
 }

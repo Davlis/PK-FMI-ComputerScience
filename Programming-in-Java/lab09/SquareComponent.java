@@ -1,114 +1,100 @@
 package lab09;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-import java.time.Instant;
-import java.util.ArrayList;
+import java.util.*;
+import javax.swing.*;
 
 public class SquareComponent extends JPanel
 {
-	private GridBagLayout layout;
-	private static int amountOfBoxes = 0;//2;
-	private DisplayPanel displayPanel;
-	private ButtonPanel buttonPanel;
+	private static int initAmountOfSquares = 1;
+	private boolean isFalling;
+	private HashSet<Square> squares;
+	private DisplayPanel display;
 
-	public SquareComponent(int width, int height)
+	public SquareComponent(Dimension size)
 	{
-		this.setSize(width, height);
+		setSize(size);
+		isFalling = true;
+		squares = new HashSet<Square>();
 
-		layout = new GridBagLayout();
-		this.setLayout(layout);
-		this.setBackground(Color.BLACK);
+		setLayout(new GridBagLayout());
 
 		GridBagConstraints con = new GridBagConstraints();
+		con.gridx = 0;
+		con.weightx = 100;
+		con.fill = GridBagConstraints.BOTH;
+		
+		con.gridy = 0;
+		con.weighty = 97;
+		con.anchor = GridBagConstraints.PAGE_START;
+		display = new DisplayPanel(size);
+		add(display, con);
 
-		displayPanel = new DisplayPanel(width, (int) height * 4 / 5);
-		con.fill = GridBagConstraints.REMAINDER;
-		con.gridheight = 9;
-		con.gridwidth = 9;
-		con.anchor = GridBagConstraints.CENTER;
-		layout.setConstraints(displayPanel, con);
-		this.add(displayPanel);
+		con.gridy = 1;
+		con.weighty = 3;
+		con.insets = new Insets(10, 0, 10, 0);
+		con.anchor = GridBagConstraints.PAGE_END;
+		add(new ButtonPanel(), con);
 
-		buttonPanel = new ButtonPanel();
-		con.gridheight = 1;
-		layout.setConstraints(buttonPanel, con);
-		this.add(buttonPanel);
+		for(int i = 0; i < initAmountOfSquares; i++)
+			addSquare();
 	}
 
-	public void repaintAll(){
-		displayPanel.repaint();
+	public void addSquare()
+	{
+		Square sqr = new Square(display);
+		if(isFalling)
+			sqr.start();
+		
+		squares.add(sqr);
 	}
 
+	public void startFalling()
+	{
+		if(isFalling)
+			return;
 
+		isFalling = true;
+		squares.forEach(Square::start);
+	}
 
+	public void stopFalling()
+	{
+		if(!isFalling)
+			return;
+
+		isFalling = false;
+		squares.forEach(Square::stop);
+	}
 
 	private class DisplayPanel extends JPanel
 	{
-		private ArrayList<Square> squares;
-
-		public DisplayPanel(int width, int height) {
-			this.setSize(width, height);
-			this.setLayout(new GridLayout(1, 1));
-			this.setBackground(Color.YELLOW);
-			this.squares = new ArrayList<>();
-
-			for(int i = 0; i < SquareComponent.amountOfBoxes; i++){
-				this.addThread();
-			}
-		}
-
-		@Override
-		public void paintComponent(Graphics g)
+		public DisplayPanel(Dimension size)
 		{
-			for(Square s: this.squares){
-				s.drawPolygon(g);
-			}
-		}
-
-		public void addThread(){
-			int xBorder = (int) this.getWidth() - Square.width + 1;
-			int yBorder = (int) this.getHeight();
-			Square s = new Square(xBorder, yBorder);
-			squares.add(s);
-			s.start();
-		}
-
-		private void start(){
-			for(Square t: squares)
-				t.notify();
-		}
-
-		private void stop(){
-			for(Square t: squares) {
-				try{
-					t.wait();
-				}
-				catch (InterruptedException ex){
-				}
-			}
+			setSize(size);
+			setLayout(null);
+			setBackground(new Color(255, 200, 0));
 		}
 	}
 
 	private class ButtonPanel extends JPanel
 	{
-		private ArrayList<JButton> buttons;
+		public ButtonPanel()
+		{
+			setLayout(new FlowLayout(FlowLayout.CENTER, 200, 0)); // or GridLayout(1, 3)
 
-		public ButtonPanel() {
-			this.setLayout(new GridLayout(1, 3, this.getWidth()/11, this.getHeight()/3));
+			JButton button;
+			button = new JButton("ITS TIME TO STOP");
+			button.addActionListener(ev -> SquareComponent.this.stopFalling());
+			add(button);
 
-			buttons = new ArrayList<>();
-			buttons.add(new JButton("ITS TIME TO STOP"));
-			buttons.get(0).addActionListener(event -> SquareComponent.this.displayPanel.stop());
-			buttons.add(new JButton("ANOTHER ONE"));
-			buttons.get(1).addActionListener(event -> {SquareComponent.amountOfBoxes++; SquareComponent.this.displayPanel.addThread();});
-			buttons.add(new JButton("start"));
-			buttons.get(2).addActionListener(event -> SquareComponent.this.displayPanel.start());
-			for(JButton b: buttons)
-				this.add(b);
+			button = new JButton("ANOTHER ONE");
+			button.addActionListener(ev -> SquareComponent.this.addSquare());
+			add(button);
+
+			button = new JButton("Start");
+			button.addActionListener(ev -> SquareComponent.this.startFalling());
+			add(button);
 		}
 	}
 }

@@ -1,28 +1,25 @@
 package lab09;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
-public class FallFrame
+public class FallFrame extends JFrame
 {
+	public FallFrame()
+	{
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+		add(new SquareComponent(new Dimension(screenSize.width / 2, screenSize.height / 2)));
+
+		setBounds(screenSize.width / 4, screenSize.height / 4, screenSize.width / 2, screenSize.height / 2);
+		setTitle("Lab09 Kamil Kosiński");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		setVisible(true);
+	}
+
 	public static void main(String[] args)
 	{
-		Runnable eventHandler = new Runnable()
-		{
-			public void run(){
-				JFrame frame = new JFrame();
-				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-				SquareComponent comp = new SquareComponent(screenSize.width/2, screenSize.height/2);
-
-				frame.setBounds(screenSize.width/4, screenSize.height/4, screenSize.width/2, screenSize.height/2);
-				frame.setResizable(false);
-				frame.setTitle("Lab09 Kamil Kosiński");
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.add(comp);
-				frame.setVisible(true);
-			}	
-		};
-
-		SwingUtilities.invokeLater(eventHandler);
+		SwingUtilities.invokeLater(FallFrame::new);
 	}
 }
