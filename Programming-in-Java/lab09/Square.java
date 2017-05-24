@@ -62,9 +62,9 @@ public class Square extends Thread
         while(true){
             Square.this.moveSquare(0, Square.this.pixelsPerFrame);
             try{
-                this.wait(0, (int) 1000/60);
+                this.sleep((int) 1000 / 60);
             } catch (InterruptedException ex){
-
+                ex.printStackTrace();
             }
 
             if(Square.this.y >= Square.this.yBorder)

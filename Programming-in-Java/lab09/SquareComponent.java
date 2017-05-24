@@ -1,7 +1,5 @@
 package lab09;
 
-import lab06.Triangle;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -13,7 +11,7 @@ import java.util.ArrayList;
 public class SquareComponent extends JPanel
 {
 	private GridBagLayout layout;
-	private static int amountOfBoxes = 2;
+	private static int amountOfBoxes = 0;//2;
 	private DisplayPanel displayPanel;
 	private ButtonPanel buttonPanel;
 
@@ -23,6 +21,7 @@ public class SquareComponent extends JPanel
 
 		layout = new GridBagLayout();
 		this.setLayout(layout);
+		this.setBackground(Color.BLACK);
 
 		GridBagConstraints con = new GridBagConstraints();
 
