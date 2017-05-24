@@ -103,6 +103,7 @@ class Population:
             self.eval_pop.append(self.func(p))
 
     def roulette(self):
+        # wybieranie unikalnych elementów populacji
         values = []
         for p in range(self.sizeOfPopulation):
             for i in values:
@@ -112,32 +113,41 @@ class Population:
                 values.append([self.eval_pop[p], self.population[p]])
         self.population = []
 
+        # wybieranie dwóch najmniejszych elementów
         x_min, x = 0, 0
         for i in values:
             if i[0] < x_min:
                 x = x_min
                 x_min = i[0]
 
+        # przesunięcie wszystkich elementów aby najmniejszy wynosił 0 + ∆ miedzy najmniejszym a prawie najmniejszym
         if x_min < 0:
             for i in values:
                 i[0] -= (x_min + (x_min-x))
 
+        # sumowanie wszystkich wartości populacji
         sum = 0
         for i in values:
             sum += i[0]
 
+        # wyliczanie prawdopodobieństwa wylosowania przez ruletkę
         probabilities = []
         for i in values:
             probabilities.append(i[0]/sum)
 
         currentRoulettePosition = 0.0
         for i in range(self.sizeOfPopulation):
+            # losowanie wartości ruletki w zakresie [0.0, 1.0]
             rouletteSpin = np.random.random_sample()
+            # przesuwanie poprzedniej wartości ruletki o wylosowaną wartość
             currentRoulettePosition += rouletteSpin
             currentRoulettePosition %= 1
+            # przypisanie zmiennej tymczasowej aby nie stracić wartości ruletki
             temp = currentRoulettePosition
             for j in range(len(values)):
+                # odejmowanie wartości prawdopodobieństwa dla kolejnych elementów populacji unikalnej
                 temp -= probabilities[j]
+                # gdy warunek jest spełniony, dany osobnik znajduje się w zakresie ruletki i jest dodawany do nowej populacji
                 if temp <= 0:
                     self.population.append(values[j][1])
                     break
@@ -209,5 +219,4 @@ class Population:
         plt.legend(loc='lower right')
         plt.show()
 
-pop = Population(obj_func, 250, 2, 0.7, 0.02, -1.5, 1.5, 0.00000001)
-pop.make_generations(1000)
+Population(obj_func, 250, 2, 0.7, 0.02, -1.5, 1.5, 0.00000001).make_generations(1000)
