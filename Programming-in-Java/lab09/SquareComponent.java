@@ -6,7 +6,11 @@ import javax.swing.*;
 
 public class SquareComponent extends JPanel
 {
+<<<<<<< HEAD
 	private static int initAmountOfSquares = new Random().nextInt(50)+1;
+=======
+	private static int initAmountOfSquares = 2;
+>>>>>>> origin/tivian/lab09
 	private boolean isFalling;
 	private HashSet<Square> squares;
 	private DisplayPanel display;
@@ -89,8 +93,12 @@ public class SquareComponent extends JPanel
 	{
 		public ButtonPanel()
 		{
+<<<<<<< HEAD
 			setBackground(new Color(0x333333));
 			setLayout(new GridLayout(1, 3)); //FlowLayout(FlowLayout.CENTER, 200, 0));
+=======
+			setLayout(new GridLayout(1, 3));
+>>>>>>> origin/tivian/lab09
 
 			JButton button;
 			button = new JButton("Stop");
