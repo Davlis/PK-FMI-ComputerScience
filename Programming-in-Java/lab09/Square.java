@@ -3,7 +3,6 @@ package lab09;
 import java.awt.*;
 import java.util.*;
 import java.util.concurrent.atomic.*;
-
 import javax.swing.*;
 
 public class Square extends JPanel
@@ -12,7 +11,8 @@ public class Square extends JPanel
     private final JPanel parent;
     private final Position position;
     private final double speed;
-    private final int border;
+    private int border;
+    private int borderWidth;
     private final AtomicBoolean flag;
     private Thread falling;
 
@@ -26,8 +26,9 @@ public class Square extends JPanel
         this.parent = parent;
         flag = new AtomicBoolean();
         border = parent.getHeight();
-        speed = new Random().nextDouble() * 8 + 0.5;
-        position = new Position(new Random().nextInt(parent.getWidth()), 0);
+        borderWidth = parent.getWidth() - Square.DEFAULT_SIZE;
+        speed = (new Random().nextDouble() * 8 + 0.5);
+        position = new Position(new Random().nextInt(parent.getWidth()), -Square.DEFAULT_SIZE+1);
 
         setSize(new Dimension(size, size));
         setLocation(position.toPoint());
@@ -44,8 +45,13 @@ public class Square extends JPanel
             while(flag.get())
             {
                 position.translate(0, speed);
-                if(position.getY() > border)
-                    position.setY(0);
+                if(position.getY() > border){
+                    position.setY(-Square.DEFAULT_SIZE/2);
+                    position.setX(new Random().nextInt(borderWidth));
+                    border = parent.getHeight();
+                    borderWidth = parent.getWidth() - Square.DEFAULT_SIZE + 1;
+                    setBackground(randomColor());
+                }
                     
                 setLocation(position.toPoint());
                 parent.repaint();

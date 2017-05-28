@@ -14,7 +14,7 @@ public class FallFrame extends JFrame
 		setBounds(screenSize.width / 4, screenSize.height / 4, screenSize.width / 2, screenSize.height / 2);
 		setTitle("Lab09 Kamil Kosiński");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
+		setResizable(true);
 		setVisible(true);
 	}
 

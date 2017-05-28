@@ -6,14 +6,16 @@ import javax.swing.*;
 
 public class SquareComponent extends JPanel
 {
-	private static int initAmountOfSquares = 1;
+	private static int initAmountOfSquares = new Random().nextInt(50)+1;
 	private boolean isFalling;
 	private HashSet<Square> squares;
 	private DisplayPanel display;
+	private Sound loop;
 
 	public SquareComponent(Dimension size)
 	{
 		setSize(size);
+		setBackground(new Color(0x333333));
 		isFalling = true;
 		squares = new HashSet<Square>();
 
@@ -27,17 +29,21 @@ public class SquareComponent extends JPanel
 		con.gridy = 0;
 		con.weighty = 97;
 		con.anchor = GridBagConstraints.PAGE_START;
+		con.insets = new Insets(5, 5, 0, 5);
 		display = new DisplayPanel(size);
 		add(display, con);
 
 		con.gridy = 1;
 		con.weighty = 3;
-		con.insets = new Insets(10, 0, 10, 0);
+		con.insets = new Insets(5, 3, 5, 3);
 		con.anchor = GridBagConstraints.PAGE_END;
 		add(new ButtonPanel(), con);
 
 		for(int i = 0; i < initAmountOfSquares; i++)
 			addSquare();
+
+		loop = new Sound("loop.wav");
+		loop.loop();
 	}
 
 	public void addSquare()
@@ -54,6 +60,7 @@ public class SquareComponent extends JPanel
 		if(isFalling)
 			return;
 
+		loop.loop();
 		isFalling = true;
 		squares.forEach(Square::start);
 	}
@@ -63,6 +70,7 @@ public class SquareComponent extends JPanel
 		if(!isFalling)
 			return;
 
+		loop.stop();
 		isFalling = false;
 		squares.forEach(Square::stop);
 	}
@@ -73,7 +81,7 @@ public class SquareComponent extends JPanel
 		{
 			setSize(size);
 			setLayout(null);
-			setBackground(new Color(255, 200, 0));
+			setBackground(new Color(0x072255));
 		}
 	}
 
@@ -81,19 +89,26 @@ public class SquareComponent extends JPanel
 	{
 		public ButtonPanel()
 		{
-			setLayout(new FlowLayout(FlowLayout.CENTER, 200, 0)); // or GridLayout(1, 3)
+			setBackground(new Color(0x333333));
+			setLayout(new GridLayout(1, 3)); //FlowLayout(FlowLayout.CENTER, 200, 0));
 
 			JButton button;
-			button = new JButton("ITS TIME TO STOP");
-			button.addActionListener(ev -> SquareComponent.this.stopFalling());
+			button = new JButton("Stop");
+			button.addActionListener(ev -> {
+				SquareComponent.this.stopFalling();
+			});
 			add(button);
 
-			button = new JButton("ANOTHER ONE");
-			button.addActionListener(ev -> SquareComponent.this.addSquare());
+			button = new JButton("Another Box");
+			button.addActionListener(ev -> {
+				SquareComponent.this.addSquare();
+			});
 			add(button);
 
 			button = new JButton("Start");
-			button.addActionListener(ev -> SquareComponent.this.startFalling());
+			button.addActionListener(ev -> {
+				SquareComponent.this.startFalling();
+			});
 			add(button);
 		}
 	}
